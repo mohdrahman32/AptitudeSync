@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AptitudeSync - About Us</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1f2937;
+            color: #e5e7eb;
+            margin: 0;
+            padding: 0;
+        }
+        .title-container {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: #111827;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        .title-container h1 {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+            animation: bounceIn 1s ease-out;
+        }
+        .title-container h2 {
+            font-size: 1.5rem;
+            color: #93c5fd;
+            animation: slideIn 1s ease-out 0.5s backwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #1f2937, #111827);
+            position: relative;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-content {
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+        .hero-content p {
+            font-size: 1.25rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+        .section {
+            padding: 4rem 2rem;
+        }
+        .card {
+            background: #374151;
+            border-radius: 10px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            background: #3b82f6;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            bottom: -2rem;
+            width: 2px;
+            background: #374151;
+        }
+        .timeline-item:last-child::after {
+            display: none;
+        }
+        .faq-item {
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .faq-item:hover {
+            background-color: #4b5e8a;
+        }
+        .faq-answer {
+            display: none;
+        }
+        .active-faq .faq-answer {
+            display: block;
+            padding-top: 1rem;
+        }
+        @media (max-width: 768px) {
+            .title-container h1 {
+                font-size: 1.75rem;
+            }
+            .title-container h2 {
+                font-size: 1rem;
+            }
+            .hero-bg {
+                height: 350px;
+            }
+            .hero-content {
+                padding: 1rem;
+            }
+            .hero-content h1 {
+                font-size: 1.5rem;
+                line-height: 1.3;
+            }
+            .hero-content p {
+                font-size: 1rem;
+                line-height: 1.4;
+            }
+            .section {
+                padding: 2rem 1rem;
+            }
+            .grid {
+                grid-template-columns: 1fr !important;
+            }
+            .card {
+                margin-bottom: 1rem;
+            }
+            .timeline-item {
+                padding-left: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .hero-bg {
+                height: 450px;
+            }
+            .hero-content h1 {
+                font-size: 1.25rem;
+            }
+            .hero-content p {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Project Title with Animations -->
+    <div class="title-container">
+        <h1>AptitudeSync: Smart Hiring Test Platform</h1>
+        <h2>IT Aptitude Mastery</h2>
+    </div>
+
+    <!-- Home Button -->
+    <div class="p-4 bg-gray-800 text-right">
+        <a href="index.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300">Home</a>
+    </div>
+
+    <!-- Hero Section: AptitudeSync at a Glance -->
+    <section class="hero-bg text-white">
+        <div class="hero-content" data-aos="fade-up">
+            <h1 class="font-bold">Bridging the Gap Between Aptitude and Opportunity – One Test at a Time</h1>
+            <p>AptitudeSync is an advanced hiring and aptitude test platform designed to prepare candidates for top industry assessments through AI-driven insights, real-time analytics, and expert-level question banks.</p>
+            <a href="index.html" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition duration-300">Start Your Journey Today</a>
+        </div>
+    </section>
+
+    <!-- Mission & Vision Section -->
+    <section class="section bg-gray-800" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">Our Core Mission & Vision</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div class="card text-center">
+                <i class="fas fa-bullseye text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Our Mission</h3>
+                <p>Empowering job seekers and students with cutting-edge aptitude preparation tools, helping them unlock opportunities at top companies.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-eye text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Our Vision</h3>
+                <p>To become the go-to platform for smart hiring tests and aptitude assessments worldwide.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose AptitudeSync? -->
+    <section class="section bg-gray-900" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">Why Choose AptitudeSync?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="card text-center">
+                <i class="fas fa-clipboard-list text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Industry-Level Questions</h3>
+                <p>Practice aptitude tests used by top companies like Amazon & Accenture.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-chart-line text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">AI-Powered Analytics</h3>
+                <p>Track your performance and identify weak areas in real time.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-layer-group text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Multi-Domain Coverage</h3>
+                <p>Logical, Quant, Verbal, Data Science, Coding, and Advanced Math.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-laptop-code text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Interactive Testing</h3>
+                <p>Live coding MCQs, timer-based tests, and custom study plans.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-tachometer-alt text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Performance Tracking</h3>
+                <p>Detailed score breakdowns, accuracy analysis, and improvement suggestions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Values -->
+    <section class="section bg-gray-800" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">Our Values: What We Stand For</h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6 max-w-5xl mx-auto">
+            <div class="card text-center">
+                <i class="fas fa-star text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-lg font-semibold">Excellence</h3>
+                <p>Delivering the highest quality aptitude preparation.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-lightbulb text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-lg font-semibold">Innovation</h3>
+                <p>Leveraging AI & technology for smarter assessments.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-balance-scale text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-lg font-semibold">Integrity</h3>
+                <p>Ensuring fairness, transparency, and accuracy in testing.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-hand-holding-heart text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-lg font-semibold">Empowerment</h3>
+                <p>Helping candidates build confidence for their careers.</p>
+            </div>
+            <div class="card text-center">
+                <i class="fas fa-graduation-cap text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-lg font-semibold">Continuous Learning</h3>
+                <p>Encouraging lifelong skill development.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- The AptitudeSync Journey -->
+    <section class="section bg-gray-900" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">The AptitudeSync Journey</h2>
+        <div class="max-w-4xl mx-auto">
+            <div class="timeline-item">
+                <h3 class="text-xl font-semibold mb-2">2024: Identifying the Challenge</h3>
+                <p>Job aspirants struggled with aptitude rounds due to a lack of structured resources and real-time feedback.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 class="text-xl font-semibold mb-2">2024: Building the Solution</h3>
+                <p>We built AptitudeSync with a focus on analytics, real-time feedback, and industry-level questions.</p>
+            </div>
+            <div class="timeline-item">
+                <h3 class="text-xl font-semibold mb-2">2025: Looking Ahead</h3>
+                <p>We’re continuously improving to add more advanced AI features and personalized learning paths.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section bg-gray-800" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">What People Say About Us</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
+            <div class="card text-center">
+                <p class="italic mb-4">"I improved my score by 40% and landed a job at Amazon!"</p>
+                <p class="font-semibold">– Priya Sharma, Software Engineer</p>
+                <div class="flex justify-center mt-2">
+                    <span class="text-yellow-400">★★★★★</span>
+                </div>
+            </div>
+            <div class="card text-center">
+                <p class="italic mb-4">"AptitudeSync’s analytics helped me focus on my weak areas."</p>
+                <p class="font-semibold">– Rahul Verma, IT Aspirant</p>
+                <div class="flex justify-center mt-2">
+                    <span class="text-yellow-400">★★★★☆</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Theoretical Concepts Hub -->
+    <section class="section bg-gray-900" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">Must-Know Aptitude Fundamentals</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div class="card text-center cursor-pointer" onclick="window.location.href='study.html#time-work'">
+                <i class="fas fa-calculator text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Time & Work Formula</h3>
+                <p>Learn the basics of calculating work rates and efficiencies.</p>
+            </div>
+            <div class="card text-center cursor-pointer" onclick="window.location.href='study.html#permutation'">
+                <i class="fas fa-random text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Permutation & Combination</h3>
+                <p>Master the fundamentals of arrangement and selection.</p>
+            </div>
+            <div class="card text-center cursor-pointer" onclick="window.location.href='study.html#probability'">
+                <i class="fas fa-dice text-4xl text-blue-400 mb-4"></i>
+                <h3 class="text-xl font-semibold mb-2">Probability Theory</h3>
+                <p>Understand the principles of chance and outcomes.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQs Section -->
+    <section class="section bg-gray-800" data-aos="fade-up">
+        <h2 class="text-3xl font-bold text-center mb-10 text-blue-400">Got Questions? We Have Answers!</h2>
+        <div class="max-w-3xl mx-auto">
+            <div class="faq-item card mb-4">
+                <h3 class="text-lg font-semibold">Is AptitudeSync free to use?</h3>
+                <p class="faq-answer mt-2">Yes, basic tests are free; premium features require a subscription.</p>
+            </div>
+            <div class="faq-item card mb-4">
+                <h3 class="text-lg font-semibold">Do you offer full-length mock tests?</h3>
+                <p class="faq-answer mt-2">Yes, we provide full-length mock tests tailored to company patterns.</p>
+            </div>
+            <div class="faq-item card mb-4">
+                <h3 class="text-lg font-semibold">Can I track my progress over time?</h3>
+                <p class="faq-answer mt-2">Absolutely, our analytics page offers detailed progress tracking.</p>
+            </div>
+            <div class="faq-item card mb-4">
+                <h3 class="text-lg font-semibold">Do you provide company-specific test patterns?</h3>
+                <p class="faq-answer mt-2">Yes, we include patterns from companies like Amazon and Accenture.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Us Button -->
+    <div class="p-4 bg-gray-800 text-center">
+        <a href="contact.html" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition duration-300">Contact Us</a>
+    </div>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 1000 });
+
+        // FAQ Toggle Functionality (Fixed)
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Toggle the active-faq class on the clicked item
+                this.classList.toggle('active-faq');
+
+                // Close other FAQs (optional, remove if you want multiple FAQs open)
+                document.querySelectorAll('.faq-item').forEach(otherItem => {
+                    if (otherItem !== this) {
+                        otherItem.classList.remove('active-faq');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

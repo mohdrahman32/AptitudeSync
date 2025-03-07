@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AptitudeSync - Study Material</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Hover.css CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- tsParticles -->
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1f2937; /* Dark Gray */
+            color: #e5e7eb; /* Light Gray Text */
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #111827; /* Darker Gray */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover {
+            transform: scale(1.05);
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #1e3a8a; /* Blue Accent */
+            transition: width 0.3s ease;
+        }
+        /* Mobile Menu Styles */
+        .mobile-menu {
+            transition: max-height 0.3s ease-in-out;
+            max-height: 0;
+            overflow: hidden;
+        }
+        .mobile-menu.open {
+            max-height: 300px; /* Adjust based on menu height */
+        }
+        /* Filter Dropdown Styles */
+        #filter-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #374151;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        #filter-dropdown.open {
+            max-height: 300px; /* Adjust based on content height */
+        }
+        #filter-btn {
+            position: relative;
+        }
+        .hero-section {
+            position: relative;
+            padding-bottom: 0; /* Allow dynamic adjustment */
+        }
+        .content-wrapper {
+            transition: margin-top 0.3s ease-in-out;
+        }
+
+        
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="sticky-nav py-4">
+        <nav class="container mx-auto flex items-center justify-between px-6">
+            <div class="text-2xl font-bold text-blue-600">AptitudeSync</div>
+            <!-- Hamburger Icon for Mobile -->
+            <button id="menu-toggle" class="text-white text-2xl md:hidden focus:outline-none">
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="test.html" class="text-white hover:text-blue-400">Aptitude Tests</a>
+                <a href="study.html" class="text-blue-400 font-semibold">Study Material</a>
+                <a href="analytics.html" class="text-white hover:text-blue-400">Analytics</a>
+                <a href="index.html" class="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 hvr-grow">Sign Out</a>
+            </div>
+            <!-- Mobile Menu (Hidden by Default) -->
+            <div id="mobile-menu" class="mobile-menu absolute top-16 left-0 w-full bg-gray-800 md:hidden">
+                <div class="flex flex-col items-center space-y-4 py-4">
+                    <a href="test.html" class="text-white hover:text-blue-400">Aptitude Tests</a>
+                    <a href="study.html" class="text-blue-400 font-semibold">Study Material</a>
+                    <a href="analytics.html" class="text-white hover:text-blue-400">Analytics</a>
+                    <a href="index.html" class="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 hvr-grow">Sign Out</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative py-12 bg-gray-800 hero-section">
+        <div id="particles-js"></div>
+        <div class="container mx-auto px-6 text-center" data-aos="fade-in">
+            <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Your One-Stop Resource Hub for IT Aptitude Success</h1>
+            <p class="text-gray-300 mb-6">Master IT aptitude with expert resources tailored for aspirants and recruiters.</p>
+            <div class="max-w-md mx-auto relative">
+                <button id="filter-btn" class="w-full p-2 rounded-lg bg-gray-700 text-white border border-gray-600 flex items-center justify-between focus:outline-none focus:border-blue-400">
+                    <span id="filter-label">Filter by Domain</span>
+                    <i class="fas fa-filter"></i>
+                </button>
+                <div id="filter-dropdown" class="absolute top-100% left-0 w-full bg-gray-700 rounded-lg shadow-lg z-10">
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="all">All</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="logical">Logical Reasoning</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="quantitative">Quantitative</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="verbal">Verbal</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="coding">Coding</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="data-science">Data Science</button>
+                    <button class="block w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600" data-filter="mathematical">Mathematical</button>
+                </div>
+            </div>
+        </div>
+        <div class="content-wrapper" id="content-wrapper">
+            <!-- Rest of the content will be pushed down -->
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="container mx-auto py-8 px-6" id="categories-section">
+        <h2 class="text-2xl font-bold mb-6 text-blue-400" data-aos="fade-up">Study Categories</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="categories-container">
+            <!-- Logical Reasoning -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="logical">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-puzzle-piece mr-2"></i>Logical Reasoning</h3>
+                <p class="text-gray-300 mb-4">Boost your problem-solving skills.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/logical-reasoning.pdf" target="_blank" class="text-blue-400 hover:underline">How to Solve Blood Relations</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://www.indiabix.com/online-test/logical-reasoning-test/random" class="text-blue-400 hover:underline">Seating Arrangement Problems</a></li>
+                        <li><strong>Tips:</strong> Look for patterns in puzzles.</li>
+                        <li><a href="https://youtu.be/iifXCRd3FyA" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="logical">Take Mini-Quiz</button>
+                    <a href="pdfs/logical-reasoning.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+            <!-- Quantitative -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="quantitative">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-calculator mr-2"></i>Quantitative</h3>
+                <p class="text-gray-300 mb-4">Master numerical problem-solving.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/quantitative.pdf" target="_blank" class="text-blue-400 hover:underline">Time-Speed-Distance Formulas</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://quizserver.careerprepindia.com/assessments/index.php?set=QA/1" class="text-blue-400 hover:underline">Profit-Loss Questions</a></li>
+                        <li><strong>Tips:</strong> Use shortcuts for percentages.</li>
+                        <li><a href="https://youtu.be/vsBpWgNYjtQ" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="quantitative">Take Mini-Quiz</button>
+                    <a href="pdfs/quantitative.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+            <!-- Verbal -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="verbal">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-book mr-2"></i>Verbal</h3>
+                <p class="text-gray-300 mb-4">Enhance language comprehension.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/verbal.pdf" target="_blank" class="text-blue-400 hover:underline">Grammar Rules</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://www.indiabix.com/online-test/verbal-ability-test/random" class="text-blue-400 hover:underline">Idiom Exercises</a></li>
+                        <li><strong>Tips:</strong> Focus on context for idioms.</li>
+                        <li><a href="https://youtu.be/2XLWgpR5S64" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="verbal">Take Mini-Quiz</button>
+                    <a href="pdfs/verbal.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+            <!-- Coding -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="coding">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-code mr-2"></i>Coding</h3>
+                <p class="text-gray-300 mb-4">Learn coding fundamentals.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/code.pdf" target="_blank" class="text-blue-400 hover:underline">Sorting Algorithms</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://www.interviewbit.com/courses/programming/" class="text-blue-400 hover:underline">MCQs on Data Structures</a></li>
+                        <li><strong>Tips:</strong> Understand time complexity.</li>
+                        <li><a href="https://youtu.be/fwUh6tFw6iE" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="coding">Take Mini-Quiz</button>
+                    <a href="pdfs/code.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+            <!-- Data Science -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="data-science">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-chart-bar mr-2"></i>Data Science</h3>
+                <p class="text-gray-300 mb-4">Interpret data effectively.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/data-science.pdf" target="_blank" class="text-blue-400 hover:underline">Statistics Basics</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://test.sanfoundry.com/data-science-online-test-basic-3/" class="text-blue-400 hover:underline">SQL Queries</a></li>
+                        <li><strong>Tips:</strong> Scan charts for trends.</li>
+                        <li><a href="https://youtu.be/uIUvpJdYgSA" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="data-science">Take Mini-Quiz</button>
+                    <a href="pdfs/data-science.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+            <!-- Mathematical -->
+            <div class="category-card bg-gray-700 p-6 rounded-lg shadow-lg" data-aos="fade-up" data-domain="mathematical">
+                <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-square-root-alt mr-2"></i>Mathematical</h3>
+                <p class="text-gray-300 mb-4">Strengthen IT math skills.</p>
+                <details class="text-gray-300">
+                    <summary class="cursor-pointer text-blue-400">Resources</summary>
+                    <ul class="list-disc pl-5 mt-2 space-y-2">
+                        <li><strong>Theory:</strong> <a href="pdfs/quantitative.pdf" target="_blank" class="text-blue-400 hover:underline">Set Theory Basics</a></li>
+                        <li><strong>Practice:</strong> <a target="_blank" href="https://quizserver.careerprepindia.com/assessments/index.php?set=QA/1" class="text-blue-400 hover:underline">Probability Problems</a></li>
+                        <li><strong>Tips:</strong> Simplify number systems.</li>
+                        <li><a href="https://youtu.be/S-Ji7aayH3A" target="_blank" class="text-blue-400 hover:underline">Video Tutorial</a></li>
+                    </ul>
+                    <button class="mt-2 bg-blue-600 text-white px-3 py-1 rounded-full hover:bg-blue-700 hvr-grow mini-quiz-btn" data-domain="mathematical">Take Mini-Quiz</button>
+                    <a href="pdfs/quantitative.pdf" download class="mt-2 inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow">Download PDF</a>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress Tracker -->
+    <section class="container mx-auto py-8 px-6" data-aos="fade-up">
+        <h2 class="text-2xl font-bold mb-4 text-blue-400">Your Study Progress</h2>
+        <div class="bg-gray-700 p-6 rounded-lg">
+            <p class="text-gray-300 mb-2">You’ve explored <span id="progress-percentage">0%</span> of the study material.</p>
+            <div class="w-full bg-gray-600 rounded-full h-2.5">
+                <div id="progress-bar" class="progress-bar rounded-full" style="width: 0%"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mini-Quiz Popup -->
+    <div id="mini-quiz-popup" class="fixed inset-0 bg-gray-900 bg-opacity-75 flex items-center justify-center hidden" style="z-index: 2000;">
+        <div class="bg-gray-700 p-6 rounded-lg w-11/12 md:w-1/2">
+            <h3 class="text-xl font-semibold text-white mb-4">Mini-Quiz: <span id="quiz-domain"></span></h3>
+            <div id="quiz-question" class="text-gray-300 mb-4"></div>
+            <form id="quiz-form" class="space-y-2"></form>
+            <div class="mt-4 flex space-x-4">
+                <button id="quiz-submit" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 hvr-grow">Submit</button>
+                <button id="quiz-close" class="bg-gray-600 text-white px-4 py-2 rounded-full hover:bg-gray-700 hvr-grow">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Real Exam Question Bank & Previous Papers Section -->
+<section class="container mx-auto py-8 px-6" data-aos="fade-up">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">Real Exam Question Bank & Previous Papers</h2>
+    <p class="text-gray-300 mb-6">Practice with real-world aptitude test questions from top companies to get exam-ready!</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="exam-papers-container">
+        <!-- Amazon -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-file-alt mr-2"></i>Amazon</h3>
+            <p class="text-gray-300 mb-4">Previous year aptitude papers for Amazon placements.</p>
+            <a href="pdfs/amazon-aptitude-paper.pdf" download class="inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow mb-2">Download PDF</a>
+        </div>
+        <!-- Accenture -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-file-alt mr-2"></i>Accenture</h3>
+            <p class="text-gray-300 mb-4">Previous year aptitude papers for Accenture placements.</p>
+            <a href="pdfs/accenture-aptitude-paper.pdf" download class="inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow mb-2">Download PDF</a>
+        </div>
+        <!-- Infosys -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-file-alt mr-2"></i>Infosys</h3>
+            <p class="text-gray-300 mb-4">Previous year aptitude papers for Infosys placements.</p>
+            <a href="pdfs/infosys-aptitude-paper.pdf" download class="inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow mb-2">Download PDF</a>
+        </div>
+        <!-- Wipro -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-file-alt mr-2"></i>Wipro</h3>
+            <p class="text-gray-300 mb-4">Previous year aptitude papers for Wipro placements.</p>
+            <a href="pdfs/wipro-aptitude-paper.pdf" download class="inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow mb-2">Download PDF</a>
+        </div>
+        <!-- TCS -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fas fa-file-alt mr-2"></i>TCS</h3>
+            <p class="text-gray-300 mb-4">Previous year aptitude papers for TCS placements.</p>
+            <a href="pdfs/tcs-aptitude-paper.pdf" download class="inline-block bg-green-600 text-white px-3 py-1 rounded-full hover:bg-green-700 hvr-grow mb-2">Download PDF</a>
+        </div>
+    </div>
+</section>
+
+    <!-- Top-Rated Aptitude Training Videos Section -->
+<!-- Top-Rated Aptitude Training Videos Section -->
+<section class="container mx-auto py-8 px-6" data-aos="fade-up">
+    <h2 class="text-2xl font-bold mb-6 text-blue-400">Top-Rated Aptitude Training Videos 🎥</h2>
+    <p class="text-gray-300 mb-6">Handpicked high-quality YouTube videos to master aptitude skills.</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="videos-container">
+        <!-- Logical Reasoning Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Logical Reasoning Basics</h3>
+            <p class="text-gray-300 mb-2">A beginner-friendly guide to logical reasoning.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/iifXCRd3FyA?si=_wHyRvPSe_66-GJM" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐⭐ (4.8/5) - "Helped me solve puzzles faster!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="logical">👍 <span class="vote-count">10</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="logical">👎 <span class="vote-count">2</span></button>
+            </div>
+        </div>
+        <!-- Quantitative Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Quantitative Aptitude Tricks</h3>
+            <p class="text-gray-300 mb-2">Shortcuts for solving numerical problems quickly.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/vsBpWgNYjtQ?si=Nw5G-IjFKjcAMiBM" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐ (4.5/5) - "Great for speed math!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="quantitative">👍 <span class="vote-count">15</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="quantitative">👎 <span class="vote-count">1</span></button>
+            </div>
+        </div>
+        <!-- Verbal Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Verbal Ability Mastery</h3>
+            <p class="text-gray-300 mb-2">Tips to improve language comprehension.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/2XLWgpR5S64?si=LxauHFRPVPN3PdKm" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐⭐ (4.9/5) - "Improved my vocab!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="verbal">👍 <span class="vote-count">20</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="verbal">👎 <span class="vote-count">0</span></button>
+            </div>
+        </div>
+        <!-- Data Science Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Data Science Fundamentals</h3>
+            <p class="text-gray-300 mb-2">Learn essential concepts for data-driven problem-solving.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/uIUvpJdYgSA?si=Q-RkG7Z_heMHWga_" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐⭐ (4.8/5) - "Great for beginners!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="datasci">👍 <span class="vote-count">15</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="datasci">👎 <span class="vote-count">1</span></button>
+            </div>
+        </div>
+        <!-- Code Performance Test Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg mt-4">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Code Performance Optimization</h3>
+            <p class="text-gray-300 mb-2">Tips to write efficient and optimized code.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/fwUh6tFw6iE?si=WwgQD78uMLPbrKZU" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐☆ (4.7/5) - "Helped me optimize my code!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="codeperf">👍 <span class="vote-count">18</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="codeperf">👎 <span class="vote-count">2</span></button>
+            </div>
+        </div>
+        <!-- Mathematical Domain Test Video -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-lg mt-4">
+            <h3 class="text-xl font-semibold text-white mb-2"><i class="fab fa-youtube mr-2"></i>Mathematical Aptitude Mastery</h3>
+            <p class="text-gray-300 mb-2">Enhance your problem-solving with math concepts.</p>
+            <iframe width="100%" height="200" src="https://www.youtube.com/embed/S-Ji7aayH3A?si=yoriqQa7x7MvScAU" frameborder="0" allowfullscreen class="rounded-lg"></iframe>
+            <p class="text-gray-400 text-sm mt-2">Rating: ⭐⭐⭐⭐⭐ (4.9/5) - "Perfect for aptitude tests!"</p>
+            <div class="mt-2 flex space-x-2">
+                <button class="upvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="mathapt">👍 <span class="vote-count">22</span></button>
+                <button class="downvote-btn bg-gray-600 text-white px-2 py-1 rounded-full hover:bg-gray-500" data-video="mathapt">👎 <span class="vote-count">1</span></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-6">
+        <div class="container mx-auto px-6 text-center">
+            <p class="text-gray-300 mb-2">© 2025 AptitudeSync. All rights reserved.</p>
+            
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({ duration: 1000 });
+
+        // tsParticles Configuration
+        tsParticles.load("particles-js", {
+            particles: {
+                number: { value: 50 },
+                size: { value: 3 },
+                move: { speed: 1 },
+                color: { value: ["#1e3a8a", "#10b981"] },
+                opacity: { value: 0.5 }
+            },
+            interactivity: {
+                events: { onhover: { enable: true, mode: "repulse" } }
+            }
+        });
+
+        // Mobile Menu Toggle
+        const menuToggle = document.getElementById('menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Filter Functionality
+        const filterBtn = document.getElementById('filter-btn');
+        const filterDropdown = document.getElementById('filter-dropdown');
+        const filterLabel = document.getElementById('filter-label');
+        const cards = document.querySelectorAll('.category-card');
+        const contentWrapper = document.getElementById('content-wrapper');
+        const categoriesSection = document.getElementById('categories-section');
+
+        filterBtn.addEventListener('click', () => {
+            const isOpen = filterDropdown.classList.toggle('open');
+            filterDropdown.classList.toggle('hidden', !isOpen);
+            contentWrapper.style.marginTop = isOpen ? `${filterDropdown.scrollHeight}px` : '0';
+        });
+
+        document.querySelectorAll('#filter-dropdown button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const filter = btn.dataset.filter;
+                filterLabel.textContent = btn.textContent;
+                filterDropdown.classList.remove('open');
+                filterDropdown.classList.add('hidden');
+                contentWrapper.style.marginTop = '0';
+
+                cards.forEach(card => {
+                    const domain = card.dataset.domain;
+                    if (filter === 'all') {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = domain === filter ? 'block' : 'none';
+                    }
+                });
+            });
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!filterBtn.contains(e.target) && !filterDropdown.contains(e.target)) {
+                filterDropdown.classList.remove('open');
+                filterDropdown.classList.add('hidden');
+                contentWrapper.style.marginTop = '0';
+            }
+        });
+
+        // Mini-Quiz Data (Sample Questions)
+        const quizQuestions = {
+            "logical": { question: "If GREAT = HTVGU, what is SMART?", options: ["UPEVT", "UPFWT", "VQFWT", "UQFWT"], correct: "UQFWT" },
+            "quantitative": { question: "A train 400m long at 72 km/hr crosses a 200m platform in?", options: ["25 sec", "30 sec", "35 sec", "20 sec"], correct: "30 sec" },
+            "verbal": { question: "Opposite of CANDID?", options: ["Honest", "Frank", "Secretive", "Open"], correct: "Secretive" },
+            "coding": { question: "Time complexity of QuickSort worst case?", options: ["O(n log n)", "O(n²)", "O(n)", "O(log n)"], correct: "O(n²)" },
+            "data-science": { question: "SQL command for unique values?", options: ["SELECT", "DISTINCT", "UNIQUE", "GROUP BY"], correct: "DISTINCT" },
+            "mathematical": { question: "Sum of 1/2, 1/3, 1/4 of a number exceeds it by 12. Number?", options: ["90", "144", "154", "174"], correct: "144" }
+        };
+
+        // Mini-Quiz Functionality
+        document.querySelectorAll('.mini-quiz-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const domain = btn.dataset.domain;
+                const quiz = quizQuestions[domain];
+                document.getElementById('mini-quiz-popup').classList.remove('hidden');
+                document.getElementById('quiz-domain').textContent = domain.charAt(0).toUpperCase() + domain.slice(1);
+                document.getElementById('quiz-question').textContent = quiz.question;
+                const form = document.getElementById('quiz-form');
+                form.innerHTML = quiz.options.map(opt => `
+                    <label class="block"><input type="radio" name="quiz-answer" value="${opt}" class="mr-2">${opt}</label>
+                `).join('');
+                document.getElementById('quiz-submit').onclick = () => {
+                    const selected = document.querySelector('input[name="quiz-answer"]:checked');
+                    if (selected && selected.value === quiz.correct) {
+                        alert('Correct! Great job.');
+                        updateProgress(5); // Add 5% progress for correct answer
+                    } else {
+                        alert(`Incorrect. The correct answer is: ${quiz.correct}`);
+                    }
+                    document.getElementById('mini-quiz-popup').classList.add('hidden');
+                };
+            });
+        });
+        document.getElementById('quiz-close').addEventListener('click', () => {
+            document.getElementById('mini-quiz-popup').classList.add('hidden');
+        });
+
+        // Progress Tracker
+        let progress = localStorage.getItem('studyProgress') || 0;
+        function updateProgress(increment) {
+            progress = Math.min(parseInt(progress) + increment, 100);
+            localStorage.setItem('studyProgress', progress);
+            document.getElementById('progress-percentage').textContent = `${progress}%`;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+        }
+        document.getElementById('progress-percentage').textContent = `${progress}%`;
+        document.getElementById('progress-bar').style.width = `${progress}%`;
+
+        // Bookmark Functionality
+        document.querySelectorAll('a[href="#"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const title = link.textContent;
+                const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
+                if (!bookmarks.includes(title)) {
+                    bookmarks.push(title);
+                    localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
+                    alert(`${title} bookmarked!`);
+                    updateProgress(2); // Add 2% progress for bookmarking
+                }
+            });
+        });
+
+
+        // Upvote/Downvote Functionality
+document.querySelectorAll('.upvote-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const voteCount = btn.querySelector('.vote-count');
+        voteCount.textContent = parseInt(voteCount.textContent) + 1;
+    });
+});
+document.querySelectorAll('.downvote-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const voteCount = btn.querySelector('.vote-count');
+        voteCount.textContent = Math.max(0, parseInt(voteCount.textContent) - 1);
+    });
+});
+
+
+    </script>
+</body>
+</html>

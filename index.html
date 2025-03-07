@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AptitudeSync - Your IT Hiring & Prep Solution</title>
+    <!-- Tailwind CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Hover.css CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/hover.css/2.3.1/css/hover-min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Dark Theme with Blue Accent */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #1f2937; /* Dark Gray */
+            color: #e5e7eb; /* Light Gray Text */
+            margin-bottom: 120px; /* Reserve space for ad box */
+        }
+        .sticky-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #111827; /* Darker Gray */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        .hero-bg {
+            background: url('https://source.unsplash.com/random/1600x900/?technology') no-repeat center/cover;
+            position: relative;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+        .signup-card, .profile-card, .terms-card, .privacy-card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: #374151; /* Dark Gray */
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.5s ease-in-out;
+            color: #e5e7eb;
+        }
+        @keyframes slideIn {
+            from { transform: translate(-50%, -60%); opacity: 0; }
+            to { transform: translate(-50%, -50%); opacity: 1; }
+        }
+        .leaderboard-table {
+            background-color: #1f2937;
+            border: 2px solid #1e3a8a; /* Blue Accent */
+        }
+        .leaderboard-table thead {
+            background-color: #1e3a8a;
+        }
+        .leaderboard-table #st {
+            background-color: #1e3a8a;
+        }
+        .leaderboard-table tr:nth-child(odd) {
+            background-color: #374151;
+        }
+        .leaderboard-table tr:hover {
+            background-color: #4b5e8a;
+            transition: background-color 0.3s ease;
+        }
+        .faq-item {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-color: #374151;
+        }
+        .faq-item:hover {
+            background-color: #4b5e8a;
+        }
+        .hamburger {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                background-color: #111827;
+            }
+            .nav-menu.active {
+                display: flex;
+            }
+            .hamburger {
+                display: block;
+                cursor: pointer;
+            }
+        }
+        .profile-photo {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto 1rem;
+        }
+
+        /* Advertisement Box Styling */
+        #ad-box {
+            display: none; /* Hidden by default, shown via JavaScript */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 50;
+            width: 300px;
+            padding: 16px;
+            background: linear-gradient(135deg, #3b82f6, #10b981);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            color: #fff;
+            animation: slideInAd 0.5s ease-out forwards;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        @keyframes slideInAd {
+            from {
+                transform: translateY(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        #ad-box:hover {
+            transform: scale(1.02);
+        }
+
+        #close-ad {
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            background: none;
+            color: #fff;
+            padding: 0;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        #close-ad:hover {
+            color: #d1d5db;
+        }
+
+        /* Responsive adjustments for ad box */
+        @media (max-width: 768px) {
+            #ad-box {
+                width: 50%;
+                bottom: 10px;
+                right: 10px;
+                padding: 12px;
+            }
+            #ad-box h3 {
+                font-size: 1rem;
+            }
+            #ad-box p {
+                font-size: 0.85rem;
+            }
+            body {
+                margin-bottom: 80px; /* Adjusted for mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header class="sticky-nav py-4">
+        <nav class="container mx-auto flex items-center justify-between px-6">
+            <div class="text-2xl font-bold text-blue-600">AptitudeSync</div>
+            <div class="flex items-center space-x-4">
+                <ul class="nav-menu flex space-x-6">
+                    <li><a href="#home" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">Home</a></li>
+                    <li><a href="test.html" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">Aptitude Tests</a></li>
+                    <li><a href="study.html" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">Study Material</a></li>
+                    <li><a href="analytics.html" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">Analytics</a></li>
+                    <li><a href="about.html" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">About Us</a></li>
+                    <li><a href="contact.html" class="text-gray-300 hover:text-blue-400 hvr-underline-from-center">Contact</a></li>
+                </ul>
+                <button id="signup-btn" class="bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 hvr-grow">Sign Up</button>
+                <div class="hamburger text-blue-600 text-2xl md:hidden">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Sign-Up Card -->
+    <div id="signup-card" class="signup-card">
+        <h2 class="text-2xl font-bold text-center mb-4 text-blue-400">Sign Up</h2>
+        <form id="signup-form">
+            <input type="text" id="name" placeholder="Full Name" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="tel" id="phone" placeholder="Phone Number" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="email" id="email" placeholder="Email" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="date" id="dob" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="text" id="degree" placeholder="Degree Name" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="text" id="university" placeholder="University" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="text" id="department" placeholder="Department" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white" required>
+            <input type="number" id="cgpa" placeholder="CGPA (if completed)" step="0.01" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white">
+            <input type="file" id="profile-photo" accept="image/*" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white">
+            <input type="url" id="linkedin" placeholder="LinkedIn Profile URL" class="w-full p-2 mb-3 border rounded bg-gray-700 text-white">
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-full w-full hover:bg-blue-700 hvr-grow">Submit</button>
+        </form>
+    </div>
+
+    <!-- Profile Card -->
+    <div id="profile-card" class="profile-card">
+        <h2 class="text-2xl font-bold text-center mb-4 text-blue-400">Your Profile</h2>
+        <img id="profile-img" class="profile-photo" alt="Profile Photo">
+        <div id="profile-details" class="text-gray-300"></div>
+        <button id="close-profile" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded-full w-full hover:bg-gray-700 hvr-grow">Close</button>
+        <button id="logout-btn" class="mt-2 bg-red-600 text-white px-4 py-2 rounded-full w-full hover:bg-red-700 hvr-grow">Log Out</button>
+    </div>
+
+    <!-- Terms of Use Card -->
+    <div id="terms-card" class="terms-card">
+        <h2 class="text-2xl font-bold text-center mb-4 text-blue-400">Terms of Use</h2>
+        <p>By using AptitudeSync, you agree to comply with our terms. This includes not sharing test content, maintaining account security, and using the platform for lawful purposes only. Violation may result in account suspension.</p>
+        <button id="close-terms" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded-full w-full hover:bg-gray-700 hvr-grow">Close</button>
+    </div>
+
+    <!-- Privacy Policy Card -->
+    <div id="privacy-card" class="privacy-card">
+        <h2 class="text-2xl font-bold text-center mb-4 text-blue-400">Privacy Policy</h2>
+        <p>We collect personal data (e.g., name, email) for account management and analytics. Data is stored securely and not shared with third parties without consent, except as required by law.</p>
+        <button id="close-privacy" class="mt-4 bg-gray-600 text-white px-4 py-2 rounded-full w-full hover:bg-gray-700 hvr-grow">Close</button>
+    </div>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg py-20 text-white relative">
+        <div class="container mx-auto text-center z-10 relative" data-aos="fade-up">
+            <h1 class="text-5xl font-bold mb-4">Test Candidates or Prepare for IT Hiring Success</h1>
+            <p class="text-xl mb-8">A data-driven platform for recruiters and IT aspirants.</p>
+            <div class="space-x-4">
+                <a href="test.html" class="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 hvr-bounce-in">Start Test</a>
+                <a href="study.html" class="bg-transparent border-2 border-blue-400 text-blue-400 px-6 py-3 rounded-full hover:bg-blue-400 hover:text-white hvr-bounce-in">Explore Study Material</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section class="py-16 bg-gray-800">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">Key Features</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
+                <div class="p-6 bg-gray-700 rounded-lg hvr-float">
+                    <i class="fas fa-laptop-code text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Comprehensive Aptitude Tests</h3>
+                    <p>Covers all IT domains with tough-level questions.</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg hvr-float">
+                    <i class="fas fa-book-open text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Interactive Study Material</h3>
+                    <p>Access topic-wise resources & quizzes.</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg hvr-float">
+                    <i class="fas fa-chart-line text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Performance Analytics</h3>
+                    <p>Track progress and improve weak areas.</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg hvr-float">
+                    <i class="fas fa-users text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Recruiter Dashboard</h3>
+                    <p>Assess candidates seamlessly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Test Leaderboard -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">Live Test Leaderboard 🏆</h2>
+            <table class="leaderboard-table w-3/4 mx-auto border-collapse text-white" data-aos="zoom-in">
+                <thead>
+                    <tr id="st">
+                        <th class="py-3 px-4">Rank</th>
+                        <th class="py-3 px-4">Name</th>
+                        <th class="py-3 px-4">Score</th>
+                        <th class="py-3 px-4">LinkedIn</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="py-3 px-4">1</td>
+                        <td>Ravi Kumar</td>
+                        <td>98%</td>
+                        <td><a href="https://linkedin.com/in/ravikumar" target="_blank" class="text-blue-400 hover:text-blue-600">Profile</a></td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">2</td>
+                        <td>Sneha Reddy</td>
+                        <td>95%</td>
+                        <td><a href="https://linkedin.com/in/snehareddy" target="_blank" class="text-blue-400 hover:text-blue-600">Profile</a></td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">3</td>
+                        <td>Arjun Patel</td>
+                        <td>92%</td>
+                        <td><a href="https://linkedin.com/in/arjunpatel" target="_blank" class="text-blue-400 hover:text-blue-600">Profile</a></td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">4</td>
+                        <td>Priya Sharma</td>
+                        <td>90%</td>
+                        <td><a href="https://linkedin.com/in/priyasharma" target="_blank" class="text-blue-400 hover:text-blue-600">Profile</a></td>
+                    </tr>
+                    <tr>
+                        <td class="py-3 px-4">5</td>
+                        <td>Vikram Singh</td>
+                        <td>88%</td>
+                        <td><a href="https://linkedin.com/in/vikramsingh" target="_blank" class="text-blue-400 hover:text-blue-600">Profile</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <a href="test.html" class="mt-8 inline-block bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 hvr-bounce-in">Take Test Now</a>
+        </div>
+    </section>
+
+    <!-- Why Choose AptitudeSync -->
+    <section class="py-16 bg-gray-800">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">Why Choose AptitudeSync?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Data-Driven Analytics</h3>
+                    <p>Real-time performance tracking.</p>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Company-Level Questions</h3>
+                    <p>Amazon & Accenture-level difficulty.</p>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Recruiter-Friendly</h3>
+                    <p>Easy-to-use hiring dashboard.</p>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-white">Candidate Focused</h3>
+                    <p>Detailed explanations & study plans.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-16 bg-gray-900">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">Testimonials & Success Stories 🎤</h2>
+            <div class="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6 px-6">
+                <div class="p-6 bg-gray-700 rounded-lg shadow-lg hvr-float">
+                    <p class="italic">"AptitudeSync helped me land a job at Amazon!"</p>
+                    <p class="mt-4 font-semibold">– Priya Sharma, Software Engineer</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg shadow-lg hvr-float">
+                    <p class="italic">"The recruiter dashboard made hiring a breeze."</p>
+                    <p class="mt-4 font-semibold">– John Doe, HR Manager</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg shadow-lg hvr-float">
+                    <p class="italic">"Improved my coding skills significantly."</p>
+                    <p class="mt-4 font-semibold">– Rahul Verma, IT Aspirant</p>
+                </div>
+                <div class="p-6 bg-gray-700 rounded-lg shadow-lg hvr-float">
+                    <p class="italic">"AptitudeSync’s practice tests gave me the confidence to ace my interview!"</p>
+                    <p class="mt-4 font-semibold">– Sneha Kapoor, Data Analyst</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="py-16 bg-gray-800">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">How It Works</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 px-6">
+                <div class="p-6">
+                    <i class="fas fa-user-plus text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Sign Up</h3>
+                    <p>Choose your role (Candidate/Recruiter).</p>
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-laptop text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Start Test</h3>
+                    <p>Take tests or explore study material.</p>
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-chart-bar text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">View Analytics</h3>
+                    <p>Track and improve skills.</p>
+                </div>
+                <div class="p-6">
+                    <i class="fas fa-briefcase text-4xl text-blue-400 mb-4"></i>
+                    <h3 class="text-xl font-semibold mb-2 text-white">Recruit</h3>
+                    <p>Evaluate & shortlist candidates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-16 bg-gray-800">
+        <div class="container mx-auto text-center" data-aos="fade-up">
+            <h2 class="text-3xl font-bold mb-12 text-blue-400">Frequently Asked Questions</h2>
+            <div class="w-3/4 mx-auto text-left">
+                <div class="faq-item p-4 border-b">
+                    <h3 class="text-lg font-semibold">Are the tests free?</h3>
+                    <p class="mt-2 hidden">Yes, basic tests are free; premium features require a subscription.</p>
+                </div>
+                <div class="faq-item p-4 border-b">
+                    <h3 class="text-lg font-semibold">How is my score calculated?</h3>
+                    <p class="mt-2 hidden">Scores are based on accuracy, speed, and difficulty level.</p>
+                </div>
+                <div class="faq-item p-4 border-b">
+                    <h3 class="text-lg font-semibold">Can recruiters filter candidates by test scores?</h3>
+                    <p class="mt-2 hidden">Yes, recruiters can sort and filter based on scores and domains.</p>
+                </div>
+                <div class="faq-item p-4 border-b">
+                    <h3 class="text-lg font-semibold">Do you provide study materials for preparation?</h3>
+                    <p class="mt-2 hidden">Yes, we offer a range of study materials, including practice questions and video tutorials.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 bg-gray-900 text-white">
+        <div class="container mx-auto text-center">
+            <p>© 2025 AptitudeSync. All rights reserved.</p>
+            <p class="mt-2">Contact: <a href="mailto:support@aptitudesync.com" class="hover:text-blue-400">support@aptitudesync.com</a></p>
+            
+            <div class="mt-4">
+                <a href="#" id="terms-link" class="text-sm hover:text-blue-400">Terms of Use</a> | 
+                <a href="#" id="privacy-link" class="text-sm hover:text-blue-400">Privacy Policy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Advertisement Box -->
+    <div id="ad-box" class="fixed bottom-20 right-20 z-50 w-64 p-4 bg-gradient-to-br from-blue-600 to-green-400 rounded-lg shadow-lg text-white transition-all duration-300 hover:shadow-xl">
+        <h3 class="text-lg font-semibold mb-2">Unlock Career Insights!</h3>
+        <p class="text-sm mb-2">Explore JobPulse for job trends, salaries, and skills in Hyderabad and beyond.</p>
+        <a href="https://mohdrahman32.github.io/JobPulse/" target="_blank" class="inline-block text-sm bg-white text-blue-600 px-2 py-1 rounded hover:bg-blue-100 transition-colors">Learn More</a>
+        <button id="close-ad" class="absolute top-2 right-2 text-white hover:text-gray-300">×</button>
+    </div>
+
+    <!-- AOS Script -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({ duration: 1000 });
+
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            hamburger.querySelector('i').classList.toggle('fa-bars');
+            hamburger.querySelector('i').classList.toggle('fa-times');
+        });
+
+        // Sign-Up/Profile Logic
+        const signupBtn = document.getElementById('signup-btn');
+        const signupCard = document.getElementById('signup-card');
+        const profileCard = document.getElementById('profile-card');
+        const signupForm = document.getElementById('signup-form');
+        const closeProfileBtn = document.getElementById('close-profile');
+        const logoutBtn = document.getElementById('logout-btn');
+        let userProfile = null;
+
+        // Buttons to restrict access until signup (excluding footer buttons)
+        const restrictedButtons = document.querySelectorAll(
+            'a[href="test.html"], a[href="study.html"], a[href="ex2.html"], ' +
+            '.hero-bg a, #key-features a, #leaderboard a, #job-opportunities a'
+        );
+
+        // Function to manage button click behavior
+        function manageButtonBehavior() {
+            restrictedButtons.forEach(btn => {
+                if (!userProfile) {
+                    btn.addEventListener('click', remindSignup);
+                } else {
+                    btn.removeEventListener('click', remindSignup);
+                }
+            });
+        }
+
+        // Reminder to sign up
+        function remindSignup(e) {
+            e.preventDefault();
+            alert('Please sign up to access this feature!');
+            signupCard.style.display = 'block';
+        }
+
+        signupBtn.addEventListener('click', () => {
+            if (userProfile) {
+                showProfile();
+            } else {
+                signupCard.style.display = 'block';
+            }
+        });
+
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById('profile-photo');
+            const reader = new FileReader();
+            const email = document.getElementById('email').value; // Unique identifier
+            reader.onload = (event) => {
+                userProfile = {
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    email: email,
+                    dob: document.getElementById('dob').value,
+                    degree: document.getElementById('degree').value,
+                    university: document.getElementById('university').value,
+                    department: document.getElementById('department').value,
+                    cgpa: document.getElementById('cgpa').value || 'N/A',
+                    photo: event.target.result,
+                    linkedin: document.getElementById('linkedin').value || 'N/A'
+                };
+                signupCard.style.display = 'none';
+                signupBtn.textContent = 'Profile';
+                signupBtn.classList.remove('bg-blue-600');
+                signupBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                // Restore previous test history if it exists for this email
+                const savedHistory = JSON.parse(localStorage.getItem(`testHistory_${email}`)) || [];
+                localStorage.setItem('testHistory', JSON.stringify(savedHistory));
+                manageButtonBehavior();
+            };
+            if (fileInput.files[0]) {
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                userProfile = {
+                    name: document.getElementById('name').value,
+                    phone: document.getElementById('phone').value,
+                    email: email,
+                    dob: document.getElementById('dob').value,
+                    degree: document.getElementById('degree').value,
+                    university: document.getElementById('university').value,
+                    department: document.getElementById('department').value,
+                    cgpa: document.getElementById('cgpa').value || 'N/A',
+                    photo: null,
+                    linkedin: document.getElementById('linkedin').value || 'N/A'
+                };
+                signupCard.style.display = 'none';
+                signupBtn.textContent = 'Profile';
+                signupBtn.classList.remove('bg-blue-600');
+                signupBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+                localStorage.setItem('userProfile', JSON.stringify(userProfile));
+                // Restore previous test history if it exists for this email
+                const savedHistory = JSON.parse(localStorage.getItem(`testHistory_${email}`)) || [];
+                localStorage.setItem('testHistory', JSON.stringify(savedHistory));
+                manageButtonBehavior();
+            }
+        });
+
+        function showProfile() {
+            const details = document.getElementById('profile-details');
+            const img = document.getElementById('profile-img');
+            details.innerHTML = `
+                <p><strong>Name:</strong> ${userProfile.name}</p>
+                <p><strong>Phone:</strong> ${userProfile.phone}</p>
+                <p><strong>Email:</strong> ${userProfile.email}</p>
+                <p><strong>DOB:</strong> ${userProfile.dob}</p>
+                <p><strong>Degree:</strong> ${userProfile.degree}</p>
+                <p><strong>University:</strong> ${userProfile.university}</p>
+                <p><strong>Department:</strong> ${userProfile.department}</p>
+                <p><strong>CGPA:</strong> ${userProfile.cgpa}</p>
+                <p><strong>LinkedIn:</strong> <a href="${userProfile.linkedin}" target="_blank" class="text-blue-400 hover:text-blue-600">${userProfile.linkedin}</a></p>
+            `;
+            img.src = userProfile.photo || 'https://via.placeholder.com/100';
+            profileCard.style.display = 'block';
+        }
+
+        closeProfileBtn.addEventListener('click', () => {
+            profileCard.style.display = 'none';
+        });
+
+        logoutBtn.addEventListener('click', () => {
+            if (userProfile) {
+                // Save current test history under user's email
+                const currentHistory = JSON.parse(localStorage.getItem('testHistory')) || [];
+                localStorage.setItem(`testHistory_${userProfile.email}`, JSON.stringify(currentHistory));
+                localStorage.removeItem('testResult'); // Clear current test
+                localStorage.removeItem('testHistory'); // Clear active history
+            }
+            userProfile = null;
+            localStorage.removeItem('userProfile');
+            profileCard.style.display = 'none';
+            signupBtn.textContent = 'Sign Up';
+            signupBtn.classList.remove('bg-green-600', 'hover:bg-green-700');
+            signupBtn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+            manageButtonBehavior();
+        });
+
+        // Load profile and history on page load
+        if (localStorage.getItem('userProfile')) {
+            userProfile = JSON.parse(localStorage.getItem('userProfile'));
+            signupBtn.textContent = 'Profile';
+            signupBtn.classList.remove('bg-blue-600');
+            signupBtn.classList.add('bg-green-600', 'hover:bg-green-700');
+            // Restore test history for this user
+            const savedHistory = JSON.parse(localStorage.getItem(`testHistory_${userProfile.email}`)) || [];
+            localStorage.setItem('testHistory', JSON.stringify(savedHistory));
+        }
+        manageButtonBehavior();
+
+        // Footer Cards
+        const termsLink = document.getElementById('terms-link');
+        const privacyLink = document.getElementById('privacy-link');
+        const termsCard = document.getElementById('terms-card');
+        const privacyCard = document.getElementById('privacy-card');
+        const closeTerms = document.getElementById('close-terms');
+        const closePrivacy = document.getElementById('close-privacy');
+
+        termsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            termsCard.style.display = 'block';
+        });
+        privacyLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            privacyCard.style.display = 'block';
+        });
+        closeTerms.addEventListener('click', () => {
+            termsCard.style.display = 'none';
+        });
+        closePrivacy.addEventListener('click', () => {
+            privacyCard.style.display = 'none';
+        });
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-item').forEach(item => {
+            item.addEventListener('click', () => {
+                const answer = item.querySelector('p');
+                answer.classList.toggle('hidden');
+            });
+        });
+
+        // Advertisement Box Control
+        const adBox = document.getElementById('ad-box');
+        const closeAdBtn = document.getElementById('close-ad');
+
+        // Show ad box after 5 seconds
+        setTimeout(() => {
+            if (adBox) {
+                adBox.style.display = 'block';
+            }
+        }, 2000);
+
+        // Close ad box
+        if (closeAdBtn) {
+            closeAdBtn.addEventListener('click', () => {
+                if (adBox) {
+                    adBox.style.display = 'none';
+                }
+            });
+        }
+    </script>
+</body>
+</html>
